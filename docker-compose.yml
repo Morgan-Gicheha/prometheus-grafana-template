@@ -12,7 +12,7 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
+    container_name: prometheus1ww
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
@@ -33,21 +33,7 @@ services:
     labels:
       org.label-schema.group: "monitoring"
 
-  # alertmanager:
-  #   image: prom/alertmanager:latest
-  #   container_name: alertmanager
-  #   volumes:
-  #     - ./alertmanager:/etc/alertmanager
-  #   command:
-  #     - '--config.file=/etc/alertmanager/config.yml'
-  #     - '--storage.path=/alertmanager'
-  #   restart: unless-stopped
-  #   expose:
-  #     - 9093
-  #   networks:
-  #     - monitor-net
-  #   labels:
-  #     org.label-schema.group: "monitoring"
+
 
   nodeexporter:
     image: prom/node-exporter:v0.18.1
@@ -71,22 +57,6 @@ services:
     labels:
       org.label-schema.group: "monitoring"
 
-  cadvisor:
-    image: gcr.io/google-containers/cadvisor:v0.34.0
-    container_name: cadvisor
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker:/var/lib/docker:ro
-      #- /cgroup:/cgroup:ro #doesn't work on MacOS only for Linux
-    restart: unless-stopped
-    expose:
-      - 8080
-    networks:
-      - monitor-net
-    labels:
-      org.label-schema.group: "monitoring"
 
   grafana:
     image: grafana/grafana:latest
